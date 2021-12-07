@@ -78,14 +78,9 @@ def save_edge_maps(input_file_path, file_number, edge_map):
     plt.imsave(output_file_name, edge_map, cmap='gray')
 
 
-def main():
+def run_edge_detector():
     # Load a color image in grayscale
 
-    ap = argparse.ArgumentParser()
-    ap.add_argument("-i", "--image", required=True,
-                    help="path to the input image")
-    args = vars(ap.parse_args())
-    print(args['image'])
     input_image_name = (args['image'])
     im = cv2.imread(input_image_name, 0)
 
@@ -104,18 +99,28 @@ def main():
     output_picture_zero_crossing_edges4 = input_image_to_edge_map(48, im)
     save_edge_maps(input_image_name, 4, output_picture_zero_crossing_edges4)
 
-    plt.subplot(231), plt.imshow(output_picture_zero_crossing_edges0,cmap = 'gray'), plt.title('Edges')
-    plt.xticks([]), plt.yticks([])
-    plt.subplot(232), plt.imshow(output_picture_zero_crossing_edges1, cmap='gray'), plt.title('Edges')
-    plt.xticks([]), plt.yticks([])
-    plt.subplot(233), plt.imshow(output_picture_zero_crossing_edges2, cmap='gray'), plt.title('Edges')
-    plt.xticks([]), plt.yticks([])
-    plt.subplot(234), plt.imshow(output_picture_zero_crossing_edges3, cmap='gray'), plt.title('Edges')
-    plt.xticks([]), plt.yticks([])
-    plt.subplot(235), plt.imshow(output_picture_zero_crossing_edges4, cmap='gray'), plt.title('Edges')
-    plt.xticks([]), plt.yticks([])
-    plt.show()
+    if args['print_out'] == True:
+        plt.subplot(231), plt.imshow(output_picture_zero_crossing_edges0,cmap = 'gray'), plt.title('Sigma = 3')
+        plt.xticks([]), plt.yticks([])
+        plt.subplot(232), plt.imshow(output_picture_zero_crossing_edges1, cmap='gray'), plt.title('Sigma = 6')
+        plt.xticks([]), plt.yticks([])
+        plt.subplot(233), plt.imshow(output_picture_zero_crossing_edges2, cmap='gray'), plt.title('Sigma = 12')
+        plt.xticks([]), plt.yticks([])
+        plt.subplot(234), plt.imshow(output_picture_zero_crossing_edges3, cmap='gray'), plt.title('Sigma = 24')
+        plt.xticks([]), plt.yticks([])
+        plt.subplot(235), plt.imshow(output_picture_zero_crossing_edges4, cmap='gray'), plt.title('Sigma = 38')
+        plt.xticks([]), plt.yticks([])
+        plt.show()
 
 
 if __name__ == '__main__':
-    main()
+    ap = argparse.ArgumentParser()
+    ap.add_argument("-i", "--image", required=True,
+                    help="path to the input image")
+    ap.add_argument("-p", "--print_out", required=False,
+                    help="Print out images with matplotlib.", default=False)
+
+    args = vars(ap.parse_args())
+    print(args['image'])
+
+    run_edge_detector()
